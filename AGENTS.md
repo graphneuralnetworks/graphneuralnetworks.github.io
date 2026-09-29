@@ -105,29 +105,45 @@ SVG in the `<a class="nav__brand">` on every page (duplicated per-file
 since there's no templating — if you change it, update `index.html`,
 `atlas.html`, and `about.html` together).
 
-The shipped mark is two connected hexagonal rings — a molecule/fused-ring
-motif (line-art outline, small circle "atoms" at each vertex, one accent-
-colored bond + its two end atoms bridging the rings). The user supplied a
-reference icon (a generic molecule/network glyph) and asked for a minimal
-version in the site's palette; this replaced an earlier Nightingale-coxcomb
-mark (6-wedge pinwheel) that the user tried, lived with briefly, then
-rejected outright ("dont like the logo"). The molecule reading works on two
-levels: it's literally a node-link graph (small circles + edges, same
-visual grammar as the Atlas page itself), and it doubles as a nod to
-molecular graphs, one of the most common real-world GNN applications
-(property prediction on molecule graphs). If asked to explore further
-alternatives, earlier discarded concepts are still valid fallback
-directions: the coxcomb family (solid pinwheel, concentric two-tone,
-linear sunburst) and pure graph-theory glyphs (Königsberg-bridges graph, K5
-pentagram, wireframe cube graph, message-passing hub glyph, K3 triangle).
+The shipped mark is a **horizontal chain of three fused hexagonal rings**
+(`viewBox="0 0 44 18"`, a ~2.4:1 wide aspect, not square) — a molecule
+motif: line-art ring outlines, small circle "atoms" at every vertex, and
+six short accent-colored strokes hinting at alternating double bonds
+(classic skeletal-formula styling), so it reads unambiguously as chemistry
+rather than abstract geometry. This went through two iterations based on
+direct user feedback:
 
-Built the same way as those: `<svg viewBox="0 0 28 28">`, `currentColor`
-for neutral parts (rings, hollow atom outlines) so it adapts to
-`.nav--on-image` vs `.nav--on-paper`, `var(--accent)` for the highlight
-bond + its two atoms, `var(--paper)` as the fill punched into each hollow
-atom circle. Sized via `.nav__logo { width: 30px; height: 30px; }` — the
-user explicitly said the earlier 22px size read too small; 30px is the
-current answer, adjust from there rather than reverting to ~22px.
+1. First shipped an earlier Nightingale-coxcomb mark (6-wedge pinwheel) —
+   the user tried it, lived with it briefly, then rejected it outright
+   ("dont like the logo").
+2. Replaced it with two small connected hexagons (per a reference icon the
+   user supplied) — user said it "doesn't look like a molecule" and asked
+   for it "much bigger and horizontally longer."
+3. Current version: three fused rings (not two), full skeletal-formula
+   double-bond styling, and a wide `viewBox` instead of a square one so the
+   shape itself is elongated, not just scaled up.
+
+The molecule reading works on two levels: it's literally a node-link graph
+(small circles + edges, same visual grammar as the Atlas page itself), and
+it doubles as a nod to molecular graphs, one of the most common real-world
+GNN applications (property prediction on molecule graphs). If this ever
+needs to change again, earlier discarded concepts are fallback directions:
+the coxcomb family (solid pinwheel, concentric two-tone, linear sunburst)
+and pure graph-theory glyphs (Königsberg-bridges graph, K5 pentagram,
+wireframe cube graph, message-passing hub glyph, K3 triangle) — all built
+square (`viewBox="0 0 28 28"`), so if you revive one, either widen its
+`viewBox` too or accept it'll read smaller/more compact than the molecule.
+
+`currentColor` is used for neutral parts (ring outlines, hollow atom
+strokes) so it adapts to `.nav--on-image` vs `.nav--on-paper`,
+`var(--accent)` for the six double-bond strokes, `var(--paper)` as the fill
+punched into each hollow atom circle. Sized via
+`.nav__logo { width: 80px; height: 33px; }` — went through two size bumps
+(22px → 30px → 80px-wide) on explicit "too small" feedback each time;
+don't reflexively shrink this back down without a new instruction to do
+so. On mobile the nav wraps to two lines (logo alone on the first) rather
+than forcing everything onto one cramped line — that's intentional, not a
+bug, given how wide this mark is.
 
 ## The graph (`atlas.html`)
 

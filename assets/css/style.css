@@ -71,7 +71,7 @@ a {
     letter-spacing: 0.18em;
 }
 
-.nav__logo { width: 30px; height: 30px; flex: none; }
+.nav__logo { width: 80px; height: 33px; flex: none; }
 
 .nav__links {
     display: flex;
