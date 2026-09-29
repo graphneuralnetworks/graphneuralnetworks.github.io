@@ -19,7 +19,24 @@
         data.edges.forEach(([a, b]) => g.setEdge(a, b));
 
         dagre.layout(g);
+        mirrorHorizontal(g);
         return g;
+    }
+
+    // dagre's left/right ordering within a rank isn't something you can pin
+    // directly (it's a median-heuristic crossing-minimization pass) — so to
+    // put a specific branch on a specific side, it's easier to just mirror
+    // the whole finished layout and pick whichever orientation puts it where
+    // we want. Flips node x and edge waypoint x around the graph's width.
+    function mirrorHorizontal(g) {
+        const width = g.graph().width;
+        g.nodes().forEach((id) => {
+            const n = g.node(id);
+            n.x = width - n.x;
+        });
+        g.edges().forEach((e) => {
+            g.edge(e).points.forEach((p) => { p.x = width - p.x; });
+        });
     }
 
     function renderEdges(svg, g) {
