@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overview — Graph Neural Networks</title>
+    <meta name="description" content="An interactive map of Graph Neural Network research — how the ideas connect, from spectral filters to graph transformers.">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -17,14 +18,33 @@
         </div>
     </nav>
 
-    <main class="page">
-        <div class="page__inner">
+    <main class="graph-page">
+        <div class="graph-header">
             <p class="page__eyebrow">Overview</p>
-            <h1 class="page__title">Coming soon</h1>
-            <p class="page__body">Visual, interactive explanations of core GNN concepts — message passing, aggregation, embeddings — will live here.</p>
-            <a class="page__back" href="index.html">← Back home</a>
+            <h1 class="page__title">The lineage of an idea</h1>
+            <p class="page__body">Graph Neural Network research, mapped by how one paper's idea leads to the next. Drag to pan, scroll to zoom.</p>
         </div>
+
+        <div class="graph-legend">
+            <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--synth"></span>Synthesized — click for notes</span>
+            <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--radar"></span>On radar</span>
+        </div>
+
+        <div class="graph-shell">
+            <div class="graph-canvas">
+                <svg></svg>
+                <div class="graph-nodes"></div>
+            </div>
+            <div class="graph-controls">
+                <button type="button" data-graph-reset>Reset view</button>
+            </div>
+        </div>
+
+        <p class="graph-hint">This map grows as more papers get synthesized.</p>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="assets/js/overview-graph.js"></script>
 </body>
 </html>
