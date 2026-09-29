@@ -5,10 +5,14 @@
  * this is the site's color template going forward:
  *   --paper       background, kept consistent across every page
  *   --ink         the connective/black tone — text, edges, lines
- *   --accent      the strong tone from the map's marching band — marks "done"
- *   --accent-line light/translucent accent — marks "coming soon" (has a
- *                 planned article but isn't published yet)
- *   --muted       grey / dark-grey, used sparingly for secondary UI chrome
+ *   --accent      the strong tone from the map's marching band — marks
+ *                 "published" (the 3 papers with a live article)
+ *   --accent-line light/translucent accent — marks "drafted" (has a folder
+ *                 in gnn-admin/papers/ — work has started — but isn't
+ *                 published yet, shows "Coming soon")
+ *   --muted       grey — marks "radar" (no gnn-admin folder yet at all;
+ *                 the plain/default node look, otherwise used sparingly
+ *                 for secondary UI chrome)
  */
 :root {
     --paper: #ddceb4;
@@ -332,7 +336,7 @@ html.graph-html body {
     justify-content: center;
     gap: 2px;
     background: transparent;
-    border: 1.4px solid var(--accent-line);
+    border: 1.4px solid var(--muted);
     border-radius: 5px;
     padding: 4px 10px;
     font-family: inherit;
@@ -382,6 +386,10 @@ html.graph-html body {
 
 .graph-node--synthesized:hover {
     background: var(--accent-light);
+}
+
+.graph-node--drafted {
+    border-color: var(--accent-line);
 }
 
 .graph-node--active {

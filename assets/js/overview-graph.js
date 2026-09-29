@@ -42,7 +42,7 @@
             const paper = byId[id];
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "graph-node graph-node--" + (paper.status === "synthesized" ? "synthesized" : "plain");
+            btn.className = "graph-node graph-node--" + paper.status;
             btn.style.left = (layout.x - layout.width / 2) + "px";
             btn.style.top = (layout.y - layout.height / 2) + "px";
             btn.style.width = layout.width + "px";
@@ -110,10 +110,12 @@
             meta.textContent = paper.year + " · " + paper.concept;
             card.appendChild(meta);
 
-            const status = document.createElement("p");
-            status.className = "paper-card__status";
-            status.textContent = "Coming soon";
-            card.appendChild(status);
+            if (paper.status === "drafted") {
+                const status = document.createElement("p");
+                status.className = "paper-card__status";
+                status.textContent = "Coming soon";
+                card.appendChild(status);
+            }
         }
 
         return { card, close };
