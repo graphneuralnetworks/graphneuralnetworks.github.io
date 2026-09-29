@@ -10,7 +10,7 @@
 
     function buildLayout(data) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({ rankdir: "TB", nodesep: 18, ranksep: 72, marginx: 30, marginy: 30 });
+        g.setGraph({ rankdir: "TB", nodesep: 24, ranksep: 72, marginx: 30, marginy: 30 });
         g.setDefaultEdgeLabel(() => ({}));
 
         data.nodes.forEach((n) => {
@@ -20,6 +20,7 @@
 
         dagre.layout(g);
         mirrorHorizontal(g);
+        organicJitter(g);
         return g;
     }
 
@@ -36,6 +37,44 @@
         });
         g.edges().forEach((e) => {
             g.edge(e).points.forEach((p) => { p.x = width - p.x; });
+        });
+    }
+
+    // A pure dagre layout lines every same-rank node up into perfectly even
+    // rows/columns — reads as a flowchart, not a hand-drawn lineage map. The
+    // parts of this graph with few siblings per rank (the early spectral and
+    // embedding chains) already look "organic" simply because there's
+    // nothing to align into a grid; the wide multi-sibling ranks further
+    // down (GAT/GIN/PNA/SchNet, etc.) don't have that accident of geometry,
+    // so give every node a small deterministic nudge instead. Deterministic
+    // (hashed from id, not Math.random) so the layout doesn't reshuffle on
+    // every reload. Edge endpoints are re-anchored to the nudged node
+    // centers afterward so nothing visually detaches from its node.
+    function hashUnit(str) {
+        let h = 2166136261;
+        for (let i = 0; i < str.length; i++) {
+            h ^= str.charCodeAt(i);
+            h = Math.imul(h, 16777619);
+        }
+        return ((h >>> 0) % 10000) / 10000;
+    }
+
+    function organicJitter(g) {
+        const JITTER_X = 9;
+        const JITTER_Y = 18;
+        g.nodes().forEach((id) => {
+            const n = g.node(id);
+            n.x += (hashUnit(id + "#x") * 2 - 1) * JITTER_X;
+            n.y += (hashUnit(id + "#y") * 2 - 1) * JITTER_Y;
+        });
+        g.edges().forEach((e) => {
+            const points = g.edge(e).points;
+            const src = g.node(e.v);
+            const tgt = g.node(e.w);
+            points[0].x = src.x;
+            points[0].y = src.y;
+            points[points.length - 1].x = tgt.x;
+            points[points.length - 1].y = tgt.y;
         });
     }
 
