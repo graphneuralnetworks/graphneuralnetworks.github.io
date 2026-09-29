@@ -82,9 +82,19 @@ for anything new, not just the current pages:
 --accent:       #a35a3c;  /* the strong/"published" color — from the map's marching band */
 --accent-soft:  rgba(163,90,60,0.14);
 --accent-light: #c9a58a;  /* lighter tint of accent — fill for "synthesized" nodes */
---accent-line:  rgba(163,90,60,0.4); /* translucent accent border — "drafted" nodes */
+--accent-line:  rgba(163,90,60,0.55); /* translucent accent border — "drafted" nodes */
 --muted:        #746c5e;  /* grey — "radar" nodes (default look) + minor UI chrome */
 ```
+
+`--accent-line` at 0.55 is also used for a small hollow-ring dot on `drafted`
+nodes (`.graph-node--drafted::after` — 7px circle, `--paper`-colored fill,
+`--accent`-colored border). This was bumped up from an earlier 0.4 and given
+its own dot because a border-only treatment wasn't visually distinct enough
+from the plain `--muted` grey `radar` border at a glance — the dot is a
+deliberate second signal, not just decoration. Keep it visually distinct from
+`.graph-node--synthesized::after`'s dot, which is solid-filled with
+`--accent` and has no border — "hollow ring" reads as "in progress," "solid
+fill" reads as "published." Don't make them look the same.
 
 Rule of thumb if you're asked to re-derive or extend this palette from a
 new image: background = average of the lightest pixels, ink = darkest
@@ -101,18 +111,40 @@ labels and small UI text are uppercase with wide letter-spacing
 ## Hero cover treatment
 
 `index.html`'s `.hero` overlay is a **light wash, not a dark scrim** —
-`linear-gradient(rgba(221,206,180,0.82), rgba(221,206,180,0.9))` (i.e.
-`--paper` at high opacity) over the image, with dark ink text
-(`.hero__content` etc. use `var(--ink)` / `var(--ink-soft)`, not cream).
-This deliberately copies the treatment on
+`linear-gradient(rgba(221,206,180,0.73), rgba(221,206,180,0.81))` (i.e.
+`--paper` at high opacity) over `assets/images/hero-vignette.jpg`, with dark
+ink text (`.hero__content` etc. use `var(--ink)` / `var(--ink-soft)`, not
+cream). This deliberately copies the treatment on
 [datasciencephilosophy.com](https://www.datasciencephilosophy.com/) (a
-personal reference site of the same author) — a background faded down to
-near-white so ordinary dark text sits on top with no special contrast
-tricks needed. An earlier version of this hero used a dark scrim + cream
-text + text-shadow for legibility; that's gone now. If you're asked to
-adjust the fade, move the two alpha values in that gradient — don't
-reintroduce a dark gradient or switch the text color back to light without
-being told to.
+personal reference site of the same author) — a background faded down toward
+near-white so ordinary dark text sits on top with no special contrast tricks
+needed. An earlier version of this hero used a dark scrim + cream text +
+text-shadow for legibility; that's gone now. If you're asked to adjust the
+fade, move the two alpha values in that gradient — don't reintroduce a dark
+gradient or switch the text color back to light without being told to.
+
+The alpha values started at `0.82`/`0.9` (very washed out, barely any image
+visible), then went to `0.6`/`0.68` on request for "a little less faded" —
+that overshot: the map's marching-band linework got strong enough to fight
+with the title text's legibility where they cross. Settled on `0.73`/`0.81`
+as the middle ground (2026-09-29). If asked to fade it further in either
+direction, nudge from here rather than the original extremes, and re-check
+legibility specifically where "GRAPH NEURAL NETWORKS" crosses the thick
+tan/grey bands, not just against the plain paper background.
+
+`hero-vignette.jpg` (used instead of plain `hero.jpg` as the hero background)
+is a derived asset, not a fresh source photo: it's `hero.jpg` run through a
+small numpy/PIL script that (a) blends a `--paper`-colored radial wash in
+more strongly toward the edges/corners than the center, and (b) gives the
+center a slight, separate contrast/saturation boost — so the core chart in
+the middle of the frame reads a little more prominently than the
+background, "only by a little" per the request that produced it. It is
+**not** a strong vignette — the effect is meant to be barely noticeable, just
+enough to draw the eye inward. If regenerating it, work from `hero.jpg` (the
+only source in-repo; the original high-res `.avif` was never checked in —
+see "Hero image assets" below) and keep the effect subtle: a light radial
+lerp toward `--paper` outward, a mild contrast/saturation bump inward, no
+hard vignette ring or darkened corners.
 
 `index.html` also carries a small copyright line in `.hero__footer`
 (`.hero__copyright` span, under the subscribe link): "© Copyright 2026,
@@ -206,8 +238,10 @@ tried and rejected ("go back to the grey... what I want is 3 things")**:
 - `status: "drafted"` → **has a folder in `gnn-admin/papers/`** (i.e. work
   has actually started there — parsed, reviewed, maybe fully synthesized)
   but isn't published on the site yet. Renders with a translucent
-  `--accent-line` border, no fill, no dot. Clicking it shows year + concept
-  plus a "Coming soon" line (`.paper-card__status`).
+  `--accent-line` border, no fill, plus a small hollow-ring corner dot
+  (`--paper` fill, `--accent` border — distinct from the solid dot on
+  published nodes). Clicking it shows year + concept plus a "Coming soon"
+  line (`.paper-card__status`).
 - `status: "radar"` → **no folder in `gnn-admin/papers/` at all** — a pure
   roadmap entry, nothing started. Renders with the plain `--muted` grey
   border (the original/default look), no dot. Clicking it shows only year
@@ -277,10 +311,30 @@ To add a brand new paper from scratch:
    nitpick.
 4. No rebuild step — the JSON is fetched client-side on page load.
 
+**Edges are a lineage, not a citation graph.** Don't add an edge just because
+gnn-admin's mermaid graph or a paper's related-work section mentions a
+connection — the user explicitly pruned several "everything cites everything"
+edges (2026-09-29) to keep the graph reading as succession/core-inspiration
+only, and asked to keep it that way: "not everything needs to be connected to
+everything." Concretely, edges were removed where a node was already
+well-connected through a stronger primary lineage edge (e.g. `gcn→dgn` was
+cut because `pna→dgn` — DGN's actual direct predecessor — already existed;
+`deepwalk→gcn` was cut as an arbitrary cross-lineage bridge). `gps` in
+particular had 7 incoming edges before pruning (every architecture idea it
+borrows from) and was trimmed to 4 (`mpnn`, `graphormer`, `dgn`, `signnet`) —
+resist the urge to wire a new node to every plausible ancestor; pick the one
+or two edges that represent where the core idea actually came from. Also keep
+the overall shape vertical (taller than wide) rather than sprawling
+horizontally — that's a stated preference, and pruning fan-in/fan-out at
+high-convergence nodes like `gps` is the main lever for it, alongside the
+`nodesep`/`ranksep` layout knobs below.
+
 Layout tuning knobs live in `overview-graph.js`: `nodeWidth()` (sizing per
-label length), `buildLayout()`'s `nodesep`/`ranksep` (spacing), and the
-`fitTransform()` function (initial pan/zoom fit — centers on both axes,
-recomputes on window resize unless the user has manually panned/zoomed).
+label length), `buildLayout()`'s `nodesep`/`ranksep` (spacing — currently 18
+and 72, biased tight-horizontal/loose-vertical on purpose to favor a taller
+graph), and the `fitTransform()` function (initial pan/zoom fit — centers on
+both axes, recomputes on window resize unless the user has manually panned/
+zoomed).
 
 The intro card (heading + short paragraph, top-left) is a `position: fixed`
 overlay, NOT a layout sidebar — it floats over the graph and doesn't
@@ -292,7 +346,8 @@ being asked.
 
 | File | What it is |
 |---|---|
-| `hero.jpg` | Full source image (2400×2079), used as `index.html`'s hero background. |
+| `hero.jpg` | Full source image (2400×2079). Original, un-vignetted. |
+| `hero-vignette.jpg` | `hero.jpg` with a subtle center-weighted contrast/saturation boost and an outward radial wash toward `--paper` — this is what `index.html`'s `.hero` actually uses as its background now, not `hero.jpg` directly. See "Hero cover treatment" above for how it's generated. |
 | `hero-top.jpg` | Just the *upper* graphic — Minard's 1869 Hannibal-crossing chart (the lesser-known companion piece bundled into the same source scan). Cropped tight to its own bounds, full width, natural aspect. |
 | `hero-bottom.jpg` | Just the *lower* graphic — the famous 1869 Napoleon's-March chart (flowing bands + the temperature graph strip). This is "the chart" everyone means when they say "the Minard chart." Also cropped tight, full width, natural aspect. |
 | `hero-3x2.jpg` | A 3:2 crop (2000×1333) biased toward the lower/Napoleon graphic, bottom-anchored so its temperature-chart strip is never cut off. |

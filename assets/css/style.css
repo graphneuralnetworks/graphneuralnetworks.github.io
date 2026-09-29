@@ -22,7 +22,7 @@
     --accent: #a35a3c;
     --accent-soft: rgba(163, 90, 60, 0.14);
     --accent-light: #c9a58a;
-    --accent-line: rgba(163, 90, 60, 0.4);
+    --accent-line: rgba(163, 90, 60, 0.55);
     --muted: #746c5e;
 }
 
@@ -116,7 +116,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(rgba(221, 206, 180, 0.82), rgba(221, 206, 180, 0.9)), url("../images/hero.jpg");
+    background-image: linear-gradient(rgba(221, 206, 180, 0.73), rgba(221, 206, 180, 0.81)), url("../images/hero-vignette.jpg");
     background-size: cover;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -390,6 +390,18 @@ html.graph-html body {
 
 .graph-node--drafted {
     border-color: var(--accent-line);
+}
+
+.graph-node--drafted::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1.4px solid var(--accent);
 }
 
 .graph-node--active {

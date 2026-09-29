@@ -10,7 +10,7 @@
 
     function buildLayout(data) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({ rankdir: "TB", nodesep: 26, ranksep: 64, marginx: 30, marginy: 30 });
+        g.setGraph({ rankdir: "TB", nodesep: 18, ranksep: 72, marginx: 30, marginy: 30 });
         g.setDefaultEdgeLabel(() => ({}));
 
         data.nodes.forEach((n) => {
