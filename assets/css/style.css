@@ -21,6 +21,7 @@
     --line: rgba(26, 20, 16, 0.18);
     --accent: #a35a3c;
     --accent-soft: rgba(163, 90, 60, 0.14);
+    --accent-faint: rgba(163, 90, 60, 0.08);
     --accent-light: #c9a58a;
     --accent-line: rgba(163, 90, 60, 0.55);
     --muted: #746c5e;
@@ -389,6 +390,7 @@ html.graph-html body {
 }
 
 .graph-node--drafted {
+    background: var(--accent-faint);
     border-color: var(--accent-line);
 }
 
