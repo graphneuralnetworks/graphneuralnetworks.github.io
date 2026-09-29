@@ -256,7 +256,7 @@ a {
 }
 
 .about__lede,
-.about__content p {
+.about__content p:not(.page__eyebrow) {
     font-size: 15px;
     line-height: 1.85;
     color: var(--ink-soft);
@@ -267,6 +267,28 @@ a {
 .about__content em {
     color: var(--ink);
     font-style: italic;
+}
+
+.about__heading {
+    font-weight: 400;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin: 44px 0 18px;
+}
+
+.about__content a,
+.about__figure figcaption a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-line);
+    text-underline-offset: 2px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.about__content a:hover,
+.about__figure figcaption a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
 }
 
 .about__figures {
@@ -285,6 +307,12 @@ a {
     width: 100%;
     height: auto;
     border: 1px solid var(--line);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.about__figure img:hover {
+    opacity: 0.85;
 }
 
 .about__figure figcaption {
@@ -337,6 +365,39 @@ a {
         grid-template-columns: 1fr;
     }
 }
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: rgba(26, 20, 16, 0.85);
+}
+
+.lightbox__image {
+    max-width: 100%;
+    max-height: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox__close {
+    position: fixed;
+    top: 22px;
+    right: 26px;
+    border: none;
+    background: none;
+    color: var(--paper);
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px;
+    opacity: 0.85;
+}
+
+.lightbox__close:hover { opacity: 1; }
 
 /* ---------- Graph page (Overview) ---------- */
 /* Full-bleed, non-scrolling layout: the graph canvas fills the entire
