@@ -1,10 +1,21 @@
 /* Graph Neural Networks — shared minimal styles */
 
+/*
+ * Palette sampled from the Minard-map hero image (assets/images/hero.jpg) —
+ * this is the site's color template going forward:
+ *   --paper   background, kept consistent across every page
+ *   --ink     the connective/black tone — text, edges, lines
+ *   --accent  the strong tone from the map's marching band — marks "done"
+ *   --muted   grey / dark-grey — marks "not done"
+ */
 :root {
-    --ink: #1a1a1a;
-    --ink-soft: rgba(26, 26, 26, 0.7);
-    --paper: #fafaf8;
-    --line: rgba(26, 26, 26, 0.15);
+    --paper: #ddceb4;
+    --ink: #1a1410;
+    --ink-soft: rgba(26, 20, 16, 0.68);
+    --line: rgba(26, 20, 16, 0.18);
+    --accent: #a35a3c;
+    --accent-soft: rgba(163, 90, 60, 0.14);
+    --muted: #746c5e;
 }
 
 * { box-sizing: border-box; }
@@ -197,43 +208,106 @@ a {
 }
 
 /* ---------- Graph page (Overview) ---------- */
+/* Full-bleed, non-scrolling layout: a static sidebar (title/legend) and a
+   graph canvas that fills the rest of the viewport, seamless against the
+   page — same --paper background throughout, no boxed panel. */
 
-:root {
-    --accent: #b5624a;
-    --accent-soft: rgba(181, 98, 74, 0.12);
-    --node-bg: #fffdf9;
+html.graph-html,
+html.graph-html body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
 }
 
-.graph-page {
-    padding-top: 140px;
-    padding-bottom: 60px;
-    min-height: 100vh;
-}
-
-.graph-header {
-    max-width: 620px;
-    margin: 0 auto;
-    padding: 0 24px 36px;
-    text-align: center;
-}
-
-.graph-legend {
+.graph-layout {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100vh;
+    background: var(--paper);
+}
+
+.graph-sidebar {
+    flex: none;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 24px;
-    max-width: 900px;
-    margin: 0 auto 18px;
-    padding: 0 24px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
+    padding: 28px 30px 26px;
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+}
+
+.graph-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.graph-sidebar__brand {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+}
+
+.graph-sidebar__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.graph-sidebar__links a {
     color: var(--ink-soft);
+    opacity: 0.9;
+}
+
+.graph-sidebar__links a.is-current { color: var(--ink); font-weight: 600; }
+.graph-sidebar__links a:hover { opacity: 1; color: var(--ink); }
+
+.graph-sidebar__links a.is-external::after {
+    content: "↗";
+    margin-left: 3px;
+    font-size: 10px;
+}
+
+.graph-sidebar__intro { flex: 1; }
+
+.graph-sidebar__title {
+    font-weight: 300;
+    font-size: 1.7rem;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    color: var(--ink);
+}
+
+.graph-sidebar__body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin: 0;
+}
+
+.graph-sidebar__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
 }
 
 .graph-legend__item {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
 }
 
 .graph-legend__dot {
@@ -249,16 +323,28 @@ a {
 
 .graph-legend__dot--radar {
     background: transparent;
-    border: 1.5px solid var(--ink-soft);
+    border: 1.5px solid var(--muted);
+}
+
+.graph-legend__line {
+    width: 16px;
+    height: 0;
+    border-top: 1.4px solid var(--ink);
+    flex: none;
+}
+
+.graph-sidebar__hint {
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    opacity: 0.75;
+    margin: 0;
 }
 
 .graph-shell {
     position: relative;
-    margin: 0 24px;
-    height: min(72vh, 720px);
-    min-height: 420px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
+    flex: 1;
+    height: 100%;
     overflow: hidden;
     background: var(--paper);
     cursor: grab;
@@ -284,8 +370,8 @@ a {
 .graph-edge {
     fill: none;
     stroke: var(--ink);
-    stroke-opacity: 0.22;
-    stroke-width: 1.4px;
+    stroke-opacity: 0.5;
+    stroke-width: 1.3px;
 }
 
 .graph-node {
@@ -295,8 +381,8 @@ a {
     align-items: center;
     justify-content: center;
     gap: 2px;
-    background: var(--node-bg);
-    border: 1.4px solid var(--line);
+    background: transparent;
+    border: 1.4px solid var(--muted);
     border-radius: 5px;
     padding: 4px 10px;
     font-family: inherit;
@@ -304,11 +390,11 @@ a {
     cursor: pointer;
     text-align: center;
     line-height: 1.25;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease, background 0.15s ease;
 }
 
 .graph-node:hover {
-    border-color: var(--ink-soft);
+    background: var(--accent-soft);
     transform: translateY(-1px);
 }
 
@@ -329,7 +415,7 @@ a {
 
 .graph-node--synthesized {
     border-color: var(--accent);
-    box-shadow: 0 0 0 0 var(--accent-soft);
+    border-width: 1.6px;
 }
 
 .graph-node--synthesized::after {
@@ -345,18 +431,20 @@ a {
 
 .graph-node--radar {
     border-style: dashed;
-    opacity: 0.72;
+    border-color: var(--muted);
+    opacity: 0.68;
 }
 
 .graph-node--active {
     border-color: var(--accent);
-    box-shadow: 0 4px 14px rgba(26, 26, 26, 0.12);
+    background: var(--accent-soft);
+    box-shadow: 0 4px 14px rgba(26, 20, 16, 0.15);
 }
 
 .graph-controls {
     position: absolute;
-    bottom: 12px;
-    right: 14px;
+    bottom: 16px;
+    right: 18px;
     display: flex;
     gap: 10px;
     font-size: 10px;
@@ -367,7 +455,7 @@ a {
 }
 
 .graph-controls button {
-    background: rgba(250, 250, 248, 0.9);
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 3px;
     padding: 5px 9px;
@@ -378,26 +466,43 @@ a {
     cursor: pointer;
 }
 
-.graph-controls button:hover { color: var(--ink); }
+.graph-controls button:hover { color: var(--ink); border-color: var(--muted); }
 
-.graph-hint {
-    max-width: 900px;
-    margin: 12px auto 0;
-    padding: 0 24px;
-    text-align: center;
-    font-size: 11px;
-    color: var(--ink-soft);
-    opacity: 0.75;
+@media (max-width: 760px) {
+    .graph-layout { flex-direction: column; }
+
+    .graph-sidebar {
+        width: 100%;
+        max-height: 46vh;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px 20px;
+        padding: 16px 18px;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .graph-sidebar__nav { flex-direction: row; align-items: center; gap: 18px; }
+    .graph-sidebar__links { flex-direction: row; gap: 16px; }
+    .graph-sidebar__intro { flex: 1 1 100%; order: 3; }
+    .graph-sidebar__title { font-size: 1.3rem; margin-bottom: 6px; }
+    .graph-sidebar__body { display: none; }
+    .graph-sidebar__legend { flex: 1 1 100%; order: 4; flex-direction: row; gap: 18px; border-top: none; padding: 8px 0 0; }
+    .graph-sidebar__hint { display: none; }
+
+    .graph-shell { flex: 1; }
 }
 
 .paper-card {
     position: absolute;
     z-index: 5;
     width: min(280px, 84vw);
-    background: var(--node-bg);
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 6px;
-    box-shadow: 0 10px 30px rgba(26, 26, 26, 0.14);
+    box-shadow: 0 10px 30px rgba(26, 20, 16, 0.18);
     padding: 16px 18px 18px;
     text-align: left;
 }
@@ -456,8 +561,3 @@ a {
     color: var(--ink);
 }
 
-@media (max-width: 640px) {
-    .graph-header { padding-top: 0; }
-    .graph-shell { margin: 0 14px; height: min(70vh, 620px); }
-    .graph-legend { gap: 16px; }
-}

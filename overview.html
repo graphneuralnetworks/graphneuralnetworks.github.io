@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="graph-html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +9,31 @@
 </head>
 <body>
 
-    <nav class="nav nav--on-paper">
-        <a class="nav__brand" href="index.html">GNN</a>
-        <div class="nav__links">
-            <a href="overview.html">Overview</a>
-            <a href="about.html">About</a>
-            <a class="is-external" href="https://graphneuralnetworks.substack.com/" target="_blank" rel="noopener">Blog</a>
-        </div>
-    </nav>
+    <div class="graph-layout">
+        <aside class="graph-sidebar">
+            <div class="graph-sidebar__nav">
+                <a class="graph-sidebar__brand" href="index.html">GNN</a>
+                <div class="graph-sidebar__links">
+                    <a href="overview.html" class="is-current">Overview</a>
+                    <a href="about.html">About</a>
+                    <a class="is-external" href="https://graphneuralnetworks.substack.com/" target="_blank" rel="noopener">Blog</a>
+                </div>
+            </div>
 
-    <main class="graph-page">
-        <div class="graph-header">
-            <p class="page__eyebrow">Overview</p>
-            <h1 class="page__title">The lineage of an idea</h1>
-            <p class="page__body">Graph Neural Network research, mapped by how one paper's idea leads to the next. Drag to pan, scroll to zoom.</p>
-        </div>
+            <div class="graph-sidebar__intro">
+                <p class="page__eyebrow">Overview</p>
+                <h1 class="graph-sidebar__title">The lineage of an idea</h1>
+                <p class="graph-sidebar__body">Graph Neural Network research, mapped by how one paper's idea leads to the next.</p>
+            </div>
 
-        <div class="graph-legend">
-            <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--synth"></span>Synthesized — click for notes</span>
-            <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--radar"></span>On radar</span>
-        </div>
+            <div class="graph-sidebar__legend">
+                <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--synth"></span>Synthesized — click for notes</span>
+                <span class="graph-legend__item"><span class="graph-legend__dot graph-legend__dot--radar"></span>On radar</span>
+                <span class="graph-legend__item"><span class="graph-legend__line"></span>Connection</span>
+            </div>
+
+            <p class="graph-sidebar__hint">Drag to pan · Scroll to zoom.<br>This map grows as more papers get synthesized.</p>
+        </aside>
 
         <div class="graph-shell">
             <div class="graph-canvas">
@@ -39,9 +44,7 @@
                 <button type="button" data-graph-reset>Reset view</button>
             </div>
         </div>
-
-        <p class="graph-hint">This map grows as more papers get synthesized.</p>
-    </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>

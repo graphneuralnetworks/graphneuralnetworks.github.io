@@ -5,7 +5,7 @@
     const NODE_HEIGHT = 46;
 
     function nodeWidth(name) {
-        return Math.min(190, Math.max(92, 22 + name.length * 7.2));
+        return Math.min(190, Math.max(100, 24 + name.length * 8));
     }
 
     function buildLayout(data) {
@@ -200,17 +200,30 @@
             if (!isFinite(scale) || scale <= 0) scale = 0.6;
             scale = Math.max(0.15, scale);
             const tx = Math.max(8, (rect.width - width * scale) / 2);
-            const ty = 24;
+            const ty = Math.max(20, (rect.height - height * scale) / 2);
             return d3.zoomIdentity.translate(tx, ty).scale(scale);
         }
+
+        let userMoved = false;
+        zoom.on("start.track", () => { userMoved = true; });
 
         requestAnimationFrame(() => {
             shellSel.call(zoom.transform, fitTransform());
         });
 
+        let resizeTimer = null;
+        window.addEventListener("resize", () => {
+            if (userMoved) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                shellSel.call(zoom.transform, fitTransform());
+            }, 120);
+        });
+
         const resetBtn = document.querySelector("[data-graph-reset]");
         if (resetBtn) {
             resetBtn.addEventListener("click", () => {
+                userMoved = false;
                 shellSel.transition().duration(400).call(zoom.transform, fitTransform());
             });
         }
