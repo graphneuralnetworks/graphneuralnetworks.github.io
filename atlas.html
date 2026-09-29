@@ -6,6 +6,7 @@
     <title>Atlas — Graph Neural Networks</title>
     <meta name="description" content="An interactive map of Graph Neural Network research — how the ideas connect, from spectral filters to graph transformers.">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/images/cube-paper.png">
 </head>
 <body>
@@ -24,10 +25,19 @@
 
     <main class="graph-full">
         <div class="graph-intro">
-            <p class="page__eyebrow">Atlas</p>
-            <h1 class="graph-intro__title">The lineage of an idea</h1>
-            <p class="graph-intro__body">Graph Neural Network research, mapped by how one paper's idea leads to the next.</p>
-            <p class="graph-intro__hint">Drag to pan · Scroll to zoom.</p>
+            <div class="graph-intro__header" data-intro-toggle role="button" tabindex="0" aria-expanded="false" aria-controls="graph-intro-details">
+                <div class="graph-intro__header-text">
+                    <p class="page__eyebrow">Atlas</p>
+                    <h1 class="graph-intro__title">The Evolution of Graph Neural Networks</h1>
+                </div>
+                <span class="graph-intro__toggle-icon" aria-hidden="true"></span>
+            </div>
+            <div class="graph-intro__details" id="graph-intro-details">
+                <p class="graph-intro__body">Graph Neural Networks emerged from early efforts to apply neural computation to structured, relational data. Over the past decade, the field has developed from foundational spectral methods into a broad family of approaches for learning across molecules, social networks, knowledge graphs, and other connected systems.</p>
+                <p class="graph-intro__body">Early work established ways to extend convolutional ideas beyond grids and sequences, allowing models to learn from both individual entities and the relationships between them. Later architectures refined how information is passed across a graph, improving scalability, expressiveness, and performance on increasingly complex networks.</p>
+                <p class="graph-intro__body">Today, GNNs sit at the intersection of graph theory and deep learning, supporting research in areas from drug discovery and recommendation systems to traffic forecasting and scientific modelling.</p>
+                <p class="graph-intro__hint">Drag to pan · Scroll to zoom. Click to read.</p>
+            </div>
         </div>
 
         <div class="graph-shell">

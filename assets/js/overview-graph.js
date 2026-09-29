@@ -138,9 +138,34 @@
         return { card, close };
     }
 
+    // Mobile-only collapsible intro card: closed by default (CSS-driven via
+    // the .is-open class), toggled by tapping its header. No-op on desktop,
+    // where the media query keeps .graph-intro__details always visible
+    // regardless of this class.
+    function initIntroToggle() {
+        const header = document.querySelector("[data-intro-toggle]");
+        const intro = document.querySelector(".graph-intro");
+        if (!header || !intro) return;
+
+        const toggle = () => {
+            const isOpen = intro.classList.toggle("is-open");
+            header.setAttribute("aria-expanded", String(isOpen));
+        };
+
+        header.addEventListener("click", toggle);
+        header.addEventListener("keydown", (evt) => {
+            if (evt.key === "Enter" || evt.key === " ") {
+                evt.preventDefault();
+                toggle();
+            }
+        });
+    }
+
     async function init() {
         const shell = document.querySelector(".graph-shell");
         if (!shell) return;
+
+        initIntroToggle();
 
         const canvas = shell.querySelector(".graph-canvas");
         const svg = canvas.querySelector("svg");
