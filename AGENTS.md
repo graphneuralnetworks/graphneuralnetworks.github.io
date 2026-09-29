@@ -105,21 +105,29 @@ SVG in the `<a class="nav__brand">` on every page (duplicated per-file
 since there's no templating — if you change it, update `index.html`,
 `atlas.html`, and `about.html` together).
 
-The shipped mark is a minimal version of Florence Nightingale's 1858
-"Coxcomb" / polar-area diagram — a 6-wedge pinwheel, alternating accent/
-muted fill, varying radii, small paper-colored punch at the center. Chosen
-to echo the *other* famous 19th-century data-visualization pioneer, as a
-companion to the Minard hero image (Minard = flow map, Nightingale =
-polar-area chart; both are "history of statistical graphics," the running
-visual theme of this site). Picked over a 8-wedge variant, a concentric
-two-tone variant (closer to the real diagram's layered categories, but too
-busy at 22px), and a linear sunburst alternative — those, plus some
-non-coxcomb concepts explored earlier (Königsberg-bridges graph, K5
-pentagram, wireframe cube graph, message-passing hub glyph, K3 triangle),
-are reasonable fallbacks if this one ever needs to change. All built the
-same way: `<svg viewBox="0 0 28 28">`, `currentColor` for neutral parts so
-it adapts to `.nav--on-image` vs `.nav--on-paper`, `var(--accent)` for
-highlight parts, sized via `.nav__logo { width: 22px; height: 22px; }`.
+The shipped mark is two connected hexagonal rings — a molecule/fused-ring
+motif (line-art outline, small circle "atoms" at each vertex, one accent-
+colored bond + its two end atoms bridging the rings). The user supplied a
+reference icon (a generic molecule/network glyph) and asked for a minimal
+version in the site's palette; this replaced an earlier Nightingale-coxcomb
+mark (6-wedge pinwheel) that the user tried, lived with briefly, then
+rejected outright ("dont like the logo"). The molecule reading works on two
+levels: it's literally a node-link graph (small circles + edges, same
+visual grammar as the Atlas page itself), and it doubles as a nod to
+molecular graphs, one of the most common real-world GNN applications
+(property prediction on molecule graphs). If asked to explore further
+alternatives, earlier discarded concepts are still valid fallback
+directions: the coxcomb family (solid pinwheel, concentric two-tone,
+linear sunburst) and pure graph-theory glyphs (Königsberg-bridges graph, K5
+pentagram, wireframe cube graph, message-passing hub glyph, K3 triangle).
+
+Built the same way as those: `<svg viewBox="0 0 28 28">`, `currentColor`
+for neutral parts (rings, hollow atom outlines) so it adapts to
+`.nav--on-image` vs `.nav--on-paper`, `var(--accent)` for the highlight
+bond + its two atoms, `var(--paper)` as the fill punched into each hollow
+atom circle. Sized via `.nav__logo { width: 30px; height: 30px; }` — the
+user explicitly said the earlier 22px size read too small; 30px is the
+current answer, adjust from there rather than reverting to ~22px.
 
 ## The graph (`atlas.html`)
 
