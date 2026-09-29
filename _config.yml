@@ -1,0 +1,3 @@
+# Keep internal/agent-only docs out of the built site.
+exclude:
+  - AGENTS.md

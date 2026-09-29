@@ -42,7 +42,7 @@
             const paper = byId[id];
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "graph-node graph-node--" + (paper.status === "synthesized" ? "synthesized" : "radar");
+            btn.className = "graph-node graph-node--" + (paper.status === "synthesized" ? "synthesized" : "plain");
             btn.style.left = (layout.x - layout.width / 2) + "px";
             btn.style.top = (layout.y - layout.height / 2) + "px";
             btn.style.width = layout.width + "px";
@@ -109,11 +109,6 @@
             meta.className = "paper-card__meta";
             meta.textContent = paper.year + " · " + paper.concept;
             card.appendChild(meta);
-
-            const status = document.createElement("p");
-            status.className = "paper-card__status";
-            status.textContent = "On the radar — not yet synthesized.";
-            card.appendChild(status);
         }
 
         return { card, close };
