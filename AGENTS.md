@@ -105,22 +105,21 @@ SVG in the `<a class="nav__brand">` on every page (duplicated per-file
 since there's no templating — if you change it, update `index.html`,
 `atlas.html`, and `about.html` together).
 
-The design direction is a minimal version of Florence Nightingale's 1858
-"Coxcomb" / polar-area diagram — a small pinwheel of wedges, muted +
-accent fill alternating. Chosen to echo the *other* famous 19th-century
-data-visualization pioneer, as a companion to the Minard hero image
-(Minard = flow map, Nightingale = polar-area chart; both are "history of
-statistical graphics," the running visual theme of this site). **As of
-this writing the exact final variant hasn't been locked in** — several
-were built and shown to the user for a pick (8-wedge solid, 6-wedge bolder,
-concentric two-tone closer to the real diagram, a linear sunburst
-alternative). Check the current `<svg class="nav__logo">` markup in any
-page to see which one shipped; if none of the coxcomb family stuck, other
-concepts were also explored (Königsberg-bridges graph, K5 pentagram,
-wireframe cube graph, message-passing hub glyph, K3 triangle) — all built
-the same way (`<svg viewBox="0 0 28 28">`, `currentColor` for neutral parts
-so it adapts to `.nav--on-image` vs `.nav--on-paper`, `var(--accent)` for
-highlight parts, sized via `.nav__logo { width: 22px; height: 22px; }`).
+The shipped mark is a minimal version of Florence Nightingale's 1858
+"Coxcomb" / polar-area diagram — a 6-wedge pinwheel, alternating accent/
+muted fill, varying radii, small paper-colored punch at the center. Chosen
+to echo the *other* famous 19th-century data-visualization pioneer, as a
+companion to the Minard hero image (Minard = flow map, Nightingale =
+polar-area chart; both are "history of statistical graphics," the running
+visual theme of this site). Picked over a 8-wedge variant, a concentric
+two-tone variant (closer to the real diagram's layered categories, but too
+busy at 22px), and a linear sunburst alternative — those, plus some
+non-coxcomb concepts explored earlier (Königsberg-bridges graph, K5
+pentagram, wireframe cube graph, message-passing hub glyph, K3 triangle),
+are reasonable fallbacks if this one ever needs to change. All built the
+same way: `<svg viewBox="0 0 28 28">`, `currentColor` for neutral parts so
+it adapts to `.nav--on-image` vs `.nav--on-paper`, `var(--accent)` for
+highlight parts, sized via `.nav__logo { width: 22px; height: 22px; }`.
 
 ## The graph (`atlas.html`)
 
