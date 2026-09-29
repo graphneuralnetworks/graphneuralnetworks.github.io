@@ -87,12 +87,6 @@ a {
     gap: 32px;
 }
 
-.nav__links a.is-external::after {
-    content: "↗";
-    margin-left: 3px;
-    font-size: 10px;
-}
-
 /* Nav on the hero image — the hero wash is now light (paper-toned), so this
    reads the same as the on-paper nav. Kept as a separate class in case a
    future hero image goes dark again. */
@@ -392,18 +386,6 @@ html.graph-html body {
 .graph-node--drafted {
     background: var(--accent-faint);
     border-color: var(--accent-line);
-}
-
-.graph-node--drafted::after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--paper);
-    border: 1.4px solid var(--accent);
 }
 
 .graph-node--active {
