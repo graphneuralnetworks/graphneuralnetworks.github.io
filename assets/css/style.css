@@ -297,15 +297,8 @@ a {
     text-decoration-color: var(--accent);
 }
 
-.about__figures {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 0 0 8px;
-}
-
 .about__figure {
-    margin: 0;
+    margin: 0 0 8px;
 }
 
 .about__figure img {
@@ -321,13 +314,21 @@ a {
     opacity: 0.85;
 }
 
-.about__figure figcaption {
-    margin-top: 8px;
+.about__figure-note {
+    margin: 0;
     font-size: 11px;
     line-height: 1.5;
     letter-spacing: 0.02em;
     color: var(--ink-soft);
     opacity: 0.75;
+}
+
+p.about__figure-note {
+    margin-bottom: 8px;
+}
+
+figcaption.about__figure-note {
+    margin-top: 8px;
 }
 
 .about__sidebar {
@@ -366,11 +367,6 @@ a {
     }
 }
 
-@media (max-width: 520px) {
-    .about__figures {
-        grid-template-columns: 1fr;
-    }
-}
 
 .lightbox {
     position: fixed;

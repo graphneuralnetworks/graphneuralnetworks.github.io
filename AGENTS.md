@@ -459,12 +459,18 @@ day per explicit style feedback (see below). Two-column layout, `.about`
   (except the first, which reuses the page `<h1 class="about__title">`
   pattern other pages use):
   1. **"Thinking in graphs"** — a lede on graphs being an intuitive way to
-     think (maps, family trees, subway lines), then `.about__figures` (a
-     2-up, 1-up-on-mobile grid) showing `hero-top.jpg` (Minard's Hannibal
-     chart) and `hero-bottom.jpg` (Minard's Napoleon chart) side by side
-     with figcaptions, then a paragraph connecting "one image holds a huge
-     amount of information" to modern graphs (social graphs as influence,
-     the web graph as what makes search/PageRank possible).
+     think (maps, family trees, subway lines), then a single `.about__figure`
+     showing the **whole** `hero.jpg` (both Minard panels together, exactly
+     as scanned, not the top/bottom crops used elsewhere on the site) with
+     a `.about__figure-note` labeling the top half above the image ("Top:
+     Hannibal's crossing of the Alps...") and another below it as the
+     `<figcaption>` ("Bottom: Napoleon's Russian campaign... Both by Charles
+     Minard..."). This replaced an earlier side-by-side `hero-top.jpg` /
+     `hero-bottom.jpg` two-up layout at the user's request, specifically to
+     show the original single-sheet image intact rather than the cropped
+     halves. Then a paragraph connecting "one image holds a huge amount of
+     information" to modern graphs (social graphs as influence, the web
+     graph as what makes search/PageRank possible).
   2. **"Why I built this"** — the actual pitch, written as a personal note
      ("My goal with this site was to...", not a marketing-voice mission
      statement): GNNs have a reputation for being unapproachable despite
@@ -512,7 +518,7 @@ day per explicit style feedback (see below). Two-column layout, `.about`
 - Match the site owner's own voice (informal, direct, short asides in
   parentheses) rather than a neutral/corporate tone.
 
-**The two Minard images are click-to-expand.** `assets/js/about.js`
+**The Minard image is click-to-expand.** `assets/js/about.js`
 (`initIntroToggle`'s sibling script, but its own file) attaches a click/Enter
 handler to every `.about__figure img` that builds a fixed full-viewport
 `.lightbox` overlay (dark scrim, the clicked image at up to full
