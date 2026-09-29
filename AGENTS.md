@@ -120,10 +120,17 @@ pixel, accent = most saturated warm pixel. Keep `--paper` identical across
 every page — that consistency was explicitly requested.
 
 Typography: system sans stack (`-apple-system, "Helvetica Neue"...`), light
-weights (200–300) for most display text, **except** the graph page's own
-title (`.graph-intro__title`), which is bold + `--accent` colored on
-purpose — that's the one deliberately "loud" element on the page. Nav
-labels and small UI text are uppercase with wide letter-spacing
+weight (300) for every page's main display title, including
+`.graph-intro__title` (Atlas) and `.about__title` (About) — both are
+`font-weight: 300` with no color override (inherits `var(--ink)`, plain
+black). This was **not** always the case: at one point `.graph-intro__title`
+was bold + `--accent` colored as a deliberately "loud" element, and
+`.about__title` was briefly changed to match it. The user tried that look
+and explicitly asked to revert both back to thin/black (2026-09-29) — "I
+think I am a bigger fan of the old style... thin capital black letters."
+Don't reintroduce bold/accent titles on either page without being asked
+again; thin + black is the current, intended, and requested state for both.
+Nav labels and small UI text are uppercase with wide letter-spacing
 (`0.1–0.18em`).
 
 ## Hero cover treatment
