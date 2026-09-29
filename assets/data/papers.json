@@ -4,6 +4,7 @@
     { "id": "henaff", "name": "Henaff et al.", "year": 2015, "concept": "Smooth spectral filters", "status": "radar" },
     { "id": "line", "name": "LINE", "year": 2015, "concept": "1st/2nd order proximity", "status": "radar" },
     { "id": "chebnet", "name": "ChebNet", "year": 2016, "concept": "Chebyshev polynomial filters", "status": "radar" },
+    { "id": "ggnn", "name": "GG-NN", "year": 2016, "concept": "Gated graph neural networks", "status": "radar" },
     {
       "id": "deepwalk",
       "name": "DeepWalk",
@@ -37,7 +38,18 @@
       "note": "Collapses spectral graph convolutions into a first-order approximation: average neighbor features, multiply by a weight matrix, activate. Uses both structure and features, trains in seconds, and became the template every message-passing GNN builds on.",
       "arxiv": "https://arxiv.org/abs/1609.02907"
     },
-    { "id": "mpnn", "name": "MPNN", "year": 2017, "concept": "Message passing framework", "status": "radar" },
+    {
+      "id": "mpnn",
+      "name": "MPNN",
+      "year": 2017,
+      "concept": "Message passing framework",
+      "status": "radar",
+      "authors": "Gilmer, Schoenholz, Riley, Vinyals, Dahl",
+      "venue": "ICML 2017",
+      "note": "Shows that a wave of prior graph neural nets are all the same idea — message, update, readout — and names it message passing. Tuned for quantum chemistry, it predicts 11 of 13 molecular properties within chemical accuracy, ~300,000x faster than DFT.",
+      "arxiv": "https://arxiv.org/abs/1704.01212"
+    },
+    { "id": "schnet", "name": "SchNet", "year": 2017, "concept": "Continuous-filter convolutions for molecules", "status": "radar" },
     {
       "id": "graphsage",
       "name": "GraphSAGE",
@@ -122,7 +134,19 @@
     { "id": "san", "name": "SAN", "year": 2022, "concept": "Learnable positional encoding", "status": "radar" },
     { "id": "signnet", "name": "SignNet", "year": 2022, "concept": "Sign-invariant eigenvectors", "status": "radar" },
     { "id": "lspe", "name": "LSPE", "year": 2022, "concept": "Learnable structural & positional encodings", "status": "radar" },
-    { "id": "gps", "name": "GPS", "year": 2022, "concept": "Hybrid MPNN + Transformer", "status": "radar" }
+    {
+      "id": "gps",
+      "name": "GPS",
+      "year": 2022,
+      "concept": "Hybrid MPNN + Transformer",
+      "status": "radar",
+      "authors": "Rampášek, Galkin, Dwivedi, Luu, Wolf, Beaini",
+      "venue": "NeurIPS 2022",
+      "note": "Treats message passing and global attention as swappable ingredients in one recipe instead of rival architectures, running them side by side each layer. Cheap local structure from message passing, one-hop-to-anywhere reach from attention.",
+      "arxiv": "https://arxiv.org/abs/2205.12454"
+    },
+    { "id": "lrgb", "name": "LRGB", "year": 2022, "concept": "Long-range graph benchmark", "status": "radar" },
+    { "id": "exphormer", "name": "Exphormer", "year": 2023, "concept": "Sparse (expander) graph transformers", "status": "radar" }
   ],
   "edges": [
     ["bruna", "henaff"],
@@ -149,10 +173,19 @@
     ["graphormer", "gps"],
     ["gin", "pna"],
     ["mpnn", "pna"],
+    ["ggnn", "mpnn"],
+    ["gcn", "mpnn"],
+    ["mpnn", "gin"],
+    ["mpnn", "schnet"],
+    ["mpnn", "gps"],
     ["pna", "dgn"],
     ["pna", "gps"],
     ["gcn", "dgn"],
     ["dgn", "signnet"],
-    ["dgn", "lspe"]
+    ["dgn", "lspe"],
+    ["dgn", "gps"],
+    ["signnet", "gps"],
+    ["gps", "lrgb"],
+    ["gps", "exphormer"]
   ]
 }

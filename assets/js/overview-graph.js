@@ -109,6 +109,11 @@
             meta.className = "paper-card__meta";
             meta.textContent = paper.year + " · " + paper.concept;
             card.appendChild(meta);
+
+            const status = document.createElement("p");
+            status.className = "paper-card__status";
+            status.textContent = "Coming soon";
+            card.appendChild(status);
         }
 
         return { card, close };

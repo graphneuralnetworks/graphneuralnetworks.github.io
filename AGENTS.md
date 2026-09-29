@@ -81,8 +81,9 @@ for anything new, not just the current pages:
 --line:         rgba(26,20,16,0.18); /* hairline borders/dividers */
 --accent:       #a35a3c;  /* the strong/"done" color — from the map's marching band */
 --accent-soft:  rgba(163,90,60,0.14);
---accent-light: #c9a58a;  /* lighter tint of accent — fill for "has content" nodes */
---muted:        #746c5e;  /* grey — "not done yet" / plain nodes */
+--accent-light: #c9a58a;  /* lighter tint of accent — fill for "synthesized" nodes */
+--accent-line:  rgba(163,90,60,0.4); /* translucent accent border — "coming soon" nodes */
+--muted:        #746c5e;  /* grey — minor UI chrome only, no longer used for graph nodes */
 ```
 
 Rule of thumb if you're asked to re-derive or extend this palette from a
@@ -97,53 +98,73 @@ purpose — that's the one deliberately "loud" element on the page. Nav
 labels and small UI text are uppercase with wide letter-spacing
 (`0.1–0.18em`).
 
+## Hero cover treatment
+
+`index.html`'s `.hero` overlay is a **light wash, not a dark scrim** —
+`linear-gradient(rgba(221,206,180,0.82), rgba(221,206,180,0.9))` (i.e.
+`--paper` at high opacity) over the image, with dark ink text
+(`.hero__content` etc. use `var(--ink)` / `var(--ink-soft)`, not cream).
+This deliberately copies the treatment on
+[datasciencephilosophy.com](https://www.datasciencephilosophy.com/) (a
+personal reference site of the same author) — a background faded down to
+near-white so ordinary dark text sits on top with no special contrast
+tricks needed. An earlier version of this hero used a dark scrim + cream
+text + text-shadow for legibility; that's gone now. If you're asked to
+adjust the fade, move the two alpha values in that gradient — don't
+reintroduce a dark gradient or switch the text color back to light without
+being told to.
+
+`index.html` also carries a small copyright line in `.hero__footer`
+(`.hero__copyright` span, under the subscribe link): "© Copyright 2026,
+Akshay Sehgal" — matching that same reference site's own copyright line
+(which reads "© Copyright 2017, Akshay Sehgal"), year updated. It's
+index.html-only, not a site-wide footer.
+
 ## Logo
 
 The nav brand is **icon-only** — no "GNN" wordmark (explicitly removed;
-don't add text back next to the logo without being asked). It's an inline
-SVG in the `<a class="nav__brand">` on every page (duplicated per-file
+don't add text back next to the logo without being asked). It's an
+`<img>` in the `<a class="nav__brand">` on every page (duplicated per-file
 since there's no templating — if you change it, update `index.html`,
-`atlas.html`, and `about.html` together).
+`atlas.html`, and `about.html` together):
 
-The shipped mark is a **horizontal chain of three fused hexagonal rings**
-(`viewBox="0 0 44 18"`, a ~2.4:1 wide aspect, not square) — a molecule
-motif: line-art ring outlines, small circle "atoms" at every vertex, and
-six short accent-colored strokes hinting at alternating double bonds
-(classic skeletal-formula styling), so it reads unambiguously as chemistry
-rather than abstract geometry. This went through two iterations based on
-direct user feedback:
+```html
+<a class="nav__brand" href="index.html">
+    <img class="nav__logo" src="assets/images/cube.png" alt="">
+</a>
+```
 
-1. First shipped an earlier Nightingale-coxcomb mark (6-wedge pinwheel) —
-   the user tried it, lived with it briefly, then rejected it outright
-   ("dont like the logo").
-2. Replaced it with two small connected hexagons (per a reference icon the
-   user supplied) — user said it "doesn't look like a molecule" and asked
-   for it "much bigger and horizontally longer."
-3. Current version: three fused rings (not two), full skeletal-formula
-   double-bond styling, and a wide `viewBox` instead of a square one so the
-   shape itself is elongated, not just scaled up.
+Currently `assets/images/cube.png` — a solid-black isometric interlocking-
+cubes mark (512×512, transparent background), sized via
+`.nav__logo { width: 34px; height: 34px; object-fit: contain; }`. Several
+other candidate logo images live in `assets/images/` too (`molecule.png`,
+`molecul.png`, `enzyme.png`, `formula.png`, `skin-cell.png`,
+`cannabidiol.png`, `benzene-ring-svgrepo-com.svg`) — these were supplied or
+generated as options; only `cube.png` is wired in. If asked to swap the
+logo to one of these, it's the same `<img src>` change in three files plus
+possibly `.nav__logo`'s aspect ratio (they may not be square).
 
-The molecule reading works on two levels: it's literally a node-link graph
-(small circles + edges, same visual grammar as the Atlas page itself), and
-it doubles as a nod to molecular graphs, one of the most common real-world
-GNN applications (property prediction on molecule graphs). If this ever
-needs to change again, earlier discarded concepts are fallback directions:
-the coxcomb family (solid pinwheel, concentric two-tone, linear sunburst)
-and pure graph-theory glyphs (Königsberg-bridges graph, K5 pentagram,
-wireframe cube graph, message-passing hub glyph, K3 triangle) — all built
-square (`viewBox="0 0 28 28"`), so if you revive one, either widen its
-`viewBox` too or accept it'll read smaller/more compact than the molecule.
+This went through several rounds of hand-coded inline-SVG marks before
+landing on a raster image, each replaced on direct user feedback:
 
-`currentColor` is used for neutral parts (ring outlines, hollow atom
-strokes) so it adapts to `.nav--on-image` vs `.nav--on-paper`,
-`var(--accent)` for the six double-bond strokes, `var(--paper)` as the fill
-punched into each hollow atom circle. Sized via
-`.nav__logo { width: 80px; height: 33px; }` — went through two size bumps
-(22px → 30px → 80px-wide) on explicit "too small" feedback each time;
-don't reflexively shrink this back down without a new instruction to do
-so. On mobile the nav wraps to two lines (logo alone on the first) rather
-than forcing everything onto one cramped line — that's intentional, not a
-bug, given how wide this mark is.
+1. A Nightingale-coxcomb mark (6-wedge pinwheel, SVG) — user tried it,
+   then rejected it outright ("dont like the logo").
+2. Two small connected hexagons (SVG, molecule motif) — user said it
+   "doesn't look like a molecule" and asked for it "much bigger and
+   horizontally longer."
+3. Three fused hexagon rings with skeletal-formula double bonds (SVG, wide
+   `viewBox="0 0 44 18"`, rendered at 80×33px) — a real molecule reading,
+   but ultimately dropped when the user pivoted to a supplied PNG instead.
+4. **Current**: `cube.png`, a raster image the user picked directly,
+   replacing the whole inline-SVG approach. Note it does *not* adapt to
+   `currentColor` or the accent palette the way the SVG marks did — it's a
+   fixed black image on every page. That's an accepted tradeoff of using a
+   raster asset; don't try to recolor it via CSS filters unless asked.
+
+If the logo changes again, the SVG-based fallback concepts (coxcomb
+family, Königsberg-bridges graph, K5 pentagram, wireframe cube graph,
+message-passing hub glyph, K3 triangle, the 3-ring molecule chain) are
+still reasonable directions — see prior commits for their exact markup.
 
 ## The graph (`atlas.html`)
 
@@ -176,21 +197,45 @@ generated by a script. Schema:
 
 - `status: "synthesized"` → node renders filled with `--accent-light`,
   accent border + corner dot, and clicking it opens a full card (authors,
-  venue, note, arXiv link). This is the "in color" / "has an article" state.
-- `status: "radar"` (or anything else) → plain node, `--muted` border, no
-  fill, no dashing (there used to be a dashed "on the radar" treatment with
-  matching legend text — both were explicitly removed; don't reintroduce a
-  visual/textual "not done yet" indicator without being asked). Clicking it
-  shows only year + concept, no extra status line.
+  venue, note, arXiv link). This is the "in color" / "has a published
+  article" state.
+- `status: "radar"` (or anything else) → every other node, regardless of
+  whether it actually has a synthesis doc in gnn-admin yet. Renders with a
+  translucent `--accent-line` border, **no fill, no corner dot**. Clicking
+  it shows year + concept plus a small "Coming soon" line
+  (`.paper-card__status`). There is deliberately only one non-published
+  visual tier now — an earlier "on the radar" muted/dashed treatment (and
+  before that, no extra styling at all) were both tried and replaced; don't
+  reintroduce a second, more muted tier for "not started yet" vs "written
+  but unpublished" unless explicitly asked to distinguish them again.
 
 **Current rollout state (2026-09-29):** only three nodes are set to
-`"synthesized"` — `deepwalk`, `node2vec`, `graphsage` — even though several
-other papers already have full author/venue/note/arxiv data sitting in the
-JSON with `status: "radar"` (gcn, gat, gin, pna, dgn, gatv2, graphormer).
-This is deliberate: the user wants a controlled rollout of "3 articles for
-now." **To publish one of those already-drafted ones, just flip its
-`status` to `"synthesized"` — don't rewrite its fields, they're already
-correct.** To add a brand new paper from scratch:
+`"synthesized"` — `deepwalk`, `node2vec`, `graphsage`. Several other papers
+already have full author/venue/note/arxiv data sitting in the JSON with
+`status: "radar"` anyway (gcn, gat, gin, pna, dgn, gatv2, graphormer, mpnn,
+gps) — that's deliberate pre-writing, not a mistake. The user wants a
+controlled rollout of "3 articles for now," and every non-synthesized node
+now reads as "Coming soon" regardless of whether its data is actually
+ready behind the scenes. **To publish one of those already-drafted ones,
+just flip its `status` to `"synthesized"` — don't rewrite its fields,
+they're already correct.**
+
+**Keeping this file in sync with gnn-admin:** periodically (or when asked
+to "update the graph"), re-check `../gnn-admin/README.md`'s Paper Coverage
+mermaid graph and Paper Status table against this file's node/edge list.
+New papers show up there before they show up here — gnn-admin's README is
+the source of truth for *what papers exist and how they connect*; this
+JSON is the source of truth for *what's actually live on the site*. Last
+synced 2026-09-29: added `ggnn` (GG-NN, 2016), `schnet` (SchNet, 2017),
+`lrgb` (LRGB, 2022), and `exphormer` (Exphormer, 2023) as new radar nodes,
+plus the edges connecting them (`ggnn→mpnn`, `gcn→mpnn`, `mpnn→gin`,
+`mpnn→schnet`, `mpnn→gps`, `dgn→gps`, `signnet→gps`, `gps→lrgb`,
+`gps→exphormer`); also back-filled `mpnn` and `gps` with full
+authors/venue/note/arxiv since gnn-admin had finished synthesizing both
+(`papers/2017-mpnn/`, `papers/2022-gps/`) — both stay `status: "radar"`
+per the 3-article rollout limit above.
+
+To add a brand new paper from scratch:
 
 1. Add a node object with a unique `id`, `name`, `year`, `concept`.
 2. Add edges connecting it to its lineage (`["parent_id", "new_id"]`).
