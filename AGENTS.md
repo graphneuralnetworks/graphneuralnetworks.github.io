@@ -17,8 +17,25 @@ Pages and nav (consistent across every page, in this order):
 |---|---|---|
 | Home | `index.html` | Splash/cover page (the Minard hero image). Entry point — never rename this file. |
 | Atlas | `atlas.html` | The actual substantive page: the interactive research-lineage graph. |
+| About | `about.html` | Why the site exists + a thin "about the author" sidebar. See its own section below. |
 | Blog | *(external)* | Links out to `https://graphneuralnetworks.substack.com/`, `target="_blank"`. Not a local page. |
-| About | `about.html` | About the site and its author. Currently a stub. |
+
+**Nav order is Home, Atlas, About, Blog** — About was moved ahead of Blog
+2026-09-29 at the user's request. Blog stays last since it's the one
+external link, not a local page; if you reorder the nav again, grep for
+`nav__links` across all three HTML files and update them together (no
+shared partial, easy to update two and miss the third — this has bitten
+before).
+
+The nav's "Home" link and the logo (`nav__brand`) both link to `/`, not
+`index.html` — changed 2026-09-29 at the user's request so clicking Home from
+a subpage lands on `mydomain.com/` (the clean root URL) rather than
+`mydomain.com/index.html`. This relies on GitHub Pages (and `python3 -m
+http.server`, for local dev) serving `index.html` as the default document at
+a directory root, which both do. Don't change these back to `index.html`,
+and if you add new internal links to the homepage, use `/` too for
+consistency — `atlas.html` and `about.html` stay as their own filenames
+since those aren't the root.
 
 Naming has changed more than once during development (the graph page was
 briefly called "Overview," then "Home," before settling on **Atlas**, and
@@ -56,10 +73,11 @@ No build step — just serve the directory and open it:
 python3 -m http.server 4173
 ```
 
-Then open `http://localhost:4173/index.html` (or `/atlas.html`, `/about.html`)
-in a real browser tab. Give the user this URL to open in *their own*
-browser rather than showing it only in an agent's embedded browser pane —
-they've asked for this before.
+Then open `http://localhost:4173/` (or `/atlas.html`, `/about.html` — the
+homepage is `/`, not `/index.html`; see the nav table above) in a real
+browser tab. Give the user this URL to open in *their own* browser rather
+than showing it only in an agent's embedded browser pane — they've asked for
+this before.
 
 Gotcha encountered during development: an embedded/automated browser
 profile can aggressively disk-cache a `<script src>` across navigations
@@ -428,6 +446,93 @@ tall narrow viewport would leave gaps instead of covering. **Do not remove
 the media-query gate** even if asked to "just increase the zoom" — adjust
 the `112%` number, don't replace the mechanism, unless you re-derive the
 math for the mobile case too.
+
+## About page (`about.html`)
+
+No longer a stub — filled in 2026-09-29 with the actual motivation for the
+site, written in first person as the author (Akshay), then revised the same
+day per explicit style feedback (see below). Two-column layout, `.about`
+(`display: grid; grid-template-columns: 1fr 220px;`, single column under
+760px):
+
+- `.about__content` — three sections, each an `<h2 class="about__heading">`
+  (except the first, which reuses the page `<h1 class="about__title">`
+  pattern other pages use):
+  1. **"Thinking in graphs"** — a lede on graphs being an intuitive way to
+     think (maps, family trees, subway lines), then `.about__figures` (a
+     2-up, 1-up-on-mobile grid) showing `hero-top.jpg` (Minard's Hannibal
+     chart) and `hero-bottom.jpg` (Minard's Napoleon chart) side by side
+     with figcaptions, then a paragraph connecting "one image holds a huge
+     amount of information" to modern graphs (social graphs as influence,
+     the web graph as what makes search/PageRank possible).
+  2. **"Why I built this"** — the actual pitch, written as a personal note
+     ("My goal with this site was to...", not a marketing-voice mission
+     statement): GNNs have a reputation for being unapproachable despite
+     graph-thinking being natural for data scientists/engineers/PMs alike.
+  3. **"How to explore the Atlas"** — practical guidance: follow the Atlas
+     like a family tree (an unfamiliar node's edges point at what it
+     grew out of / led to), but also read the synthesis and the original
+     paper once a node is filled in, since some papers (GraphSAGE, GAT
+     named explicitly) are clear enough to be the best explanation
+     available on their own. Ends with a **"A few prerequisites"**
+     paragraph (added 2026-09-29): representation learning, embeddings,
+     word2vec, the attention mechanism, and transformers, each linked
+     inline to an external explainer the user supplied directly, plus one
+     the user asked to be added on top: convolutional neural networks
+     (linked to the poloclub CNN Explainer, matching the transformer one
+     stylistically), since a chunk of the early Atlas (GCN, ChebNet) is
+     literally convolution generalized to graphs. If asked to extend this
+     list again, keep it "intuition only, no math needed" per the user's
+     framing, and prefer the same kind of visual/interactive explainer
+     over a textbook chapter or a paper.
+- `.about__sidebar` — a **thin, deliberately minimal "About the author"**
+  panel (`border-left`, ~220px column on desktop, stacks below content with
+  a `border-top` on mobile instead). It's explicitly a placeholder: the user
+  said they'll fill in a real bio later, so what's there now (name + one
+  wry line + "Bio, photo, and links coming soon") is intentional filler, not
+  a finished author bio. Don't try to flesh it out into a full bio yourself,
+  wait for the user to supply real content (photo, links, longer bio) and
+  swap it in then.
+
+**Style rules for this page's prose, given explicitly by the user
+(2026-09-29) — apply these if asked to extend or edit the text:**
+
+- **No em dashes.** Use commas where the sentence allows it, or restructure
+  with a colon/period/semicolon where a comma would be a splice. The first
+  draft of this page used em dashes throughout and was explicitly rejected
+  for it.
+- Link out to **Wikipedia** for named concepts and historical references
+  where it's natural (`graph theory`, `Charles Joseph Minard`, `Hannibal's
+  crossing of the Alps`, `French invasion of Russia`, `PageRank`, `Spectral
+  graph theory`, `Graph neural network` are the current examples), each
+  `target="_blank" rel="noopener"`. Don't force a link where there's no good
+  match, and don't link the same term twice.
+- Write it as **the author's own note**, first person, framed around "my
+  goal was to..." rather than generic third-person marketing copy.
+- Match the site owner's own voice (informal, direct, short asides in
+  parentheses) rather than a neutral/corporate tone.
+
+**The two Minard images are click-to-expand.** `assets/js/about.js`
+(`initIntroToggle`'s sibling script, but its own file) attaches a click/Enter
+handler to every `.about__figure img` that builds a fixed full-viewport
+`.lightbox` overlay (dark scrim, the clicked image at up to full
+viewport size, a `×` close button) and appends it to `<body>`; clicking the
+scrim, clicking the close button, or pressing Escape removes it again. It's
+plain DOM, no library. If more images get added to this page, they pick this
+behavior up automatically since the script queries `.about__figure img`
+generically rather than by id.
+
+**CSS specificity gotcha already hit once:** `.about__content p` (a class +
+type selector, specificity 0,1,1) will beat a bare `.page__eyebrow` (0,1,0)
+if you're not careful, which silently re-sized the "About" eyebrow to 15px
+instead of the 11px every other page's eyebrow uses, even though both use
+the exact same `.page__eyebrow` class. Fixed by scoping the paragraph rule
+to `.about__content p:not(.page__eyebrow)`. If you add more shared classes
+inside `.about__content` that should NOT inherit the generic paragraph
+styling, use the same `:not()` approach (or a more specific selector)
+rather than fighting it with `!important`. When touching this page's CSS,
+sanity-check the eyebrow's computed `font-size` against `atlas.html`'s (they
+must match, the user has explicitly asked for this once already).
 
 ## Content model
 

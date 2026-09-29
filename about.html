@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Graph Neural Networks</title>
+    <meta name="description" content="Why this site exists: a note on graphs as intuition, and the case for demystifying graph neural networks.">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/images/cube-paper.png">
@@ -11,25 +12,61 @@
 <body>
 
     <nav class="nav nav--on-paper">
-        <a class="nav__brand" href="index.html">
+        <a class="nav__brand" href="/">
             <img class="nav__logo" src="assets/images/cube.png" alt="">
         </a>
         <div class="nav__links">
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <a href="atlas.html">Atlas</a>
-            <a class="is-external" href="https://graphneuralnetworks.substack.com/" target="_blank" rel="noopener">Blog</a>
             <a href="about.html">About</a>
+            <a class="is-external" href="https://graphneuralnetworks.substack.com/" target="_blank" rel="noopener">Blog</a>
         </div>
     </nav>
 
-    <main class="page">
-        <div class="page__inner">
+    <main class="about">
+        <div class="about__content">
             <p class="page__eyebrow">About</p>
-            <h1 class="page__title">Coming soon</h1>
-            <p class="page__body">A short page on the site and the person behind it.</p>
-            <a class="page__back" href="index.html">← Back home</a>
+            <h1 class="about__title">Thinking in graphs</h1>
+            <p class="about__lede">Graphs are one of the most natural things we already think in, a map, a family tree, a group chat, a subway line. Long before anyone called it <a href="https://en.wikipedia.org/wiki/Graph_theory" target="_blank" rel="noopener">graph theory</a>, we were reading the world as things connected to other things. This site starts from that intuition and tries to carry it all the way into graph neural networks.</p>
+
+            <div class="about__figures">
+                <figure class="about__figure">
+                    <img src="assets/images/hero-top.jpg" alt="Charles Minard's chart of Hannibal's army crossing the Alps">
+                    <figcaption><a href="https://en.wikipedia.org/wiki/Charles_Joseph_Minard" target="_blank" rel="noopener">Charles Minard</a>, 1869, <a href="https://en.wikipedia.org/wiki/Hannibal%27s_crossing_of_the_Alps" target="_blank" rel="noopener">Hannibal's crossing of the Alps</a>, 218 BC.</figcaption>
+                </figure>
+                <figure class="about__figure">
+                    <img src="assets/images/hero-bottom.jpg" alt="Charles Minard's chart of Napoleon's Russian campaign">
+                    <figcaption>Charles Minard, 1869, <a href="https://en.wikipedia.org/wiki/French_invasion_of_Russia" target="_blank" rel="noopener">Napoleon's Russian campaign</a>, 1812.</figcaption>
+                </figure>
+            </div>
+
+            <p>Six variables in one image: army size, direction, geography, temperature, read at a glance, with no legend required. That's the whole case for graphs, they don't just store connections, they store <em>meaning</em> in the connections. A social graph isn't just who follows whom, it's a proxy for influence and reach. The web graph isn't just links, it's the reason search works at all: <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank" rel="noopener">PageRank</a> is, underneath everything, a very large graph algorithm wearing a business suit.</p>
+
+            <h2 class="about__heading">Why I built this</h2>
+
+            <p>Graph Neural Networks have a reputation for being dense, notation heavy, and generally unapproachable, even though most of us already reason in graphs constantly. Data scientists, engineers, product managers, we're all comfortable drawing boxes and arrows to explain a system, we just don't always call it a graph.</p>
+
+            <p>My goal with this site was to close that gap. Not by writing another textbook, but by leaning into the graphical intuition most of us already carry, and using it as a bridge into the actual research. From the earliest <a href="https://en.wikipedia.org/wiki/Spectral_graph_theory" target="_blank" rel="noopener">spectral methods</a> on graphs, through message-passing networks, to today's graph transformers, I wanted one place that treats the last decade of <a href="https://en.wikipedia.org/wiki/Graph_neural_network" target="_blank" rel="noopener">GNN</a> research as a single connected story instead of a pile of disconnected papers.</p>
+
+            <h2 class="about__heading">How to explore the Atlas</h2>
+
+            <p>The Atlas is built to be read like a family tree, not a syllabus. Start wherever a paper looks unfamiliar, follow its edges backward to see what it grew out of, and forward to see what it led to. Most ideas make a lot more sense once you've seen the one or two papers that came right before them.</p>
+
+            <p>That said, the Atlas is a map, not the territory. Once a node is filled in, I'd genuinely recommend reading the short synthesis alongside the original paper itself. A few of these, GraphSAGE and GAT especially, are written clearly enough that the paper is the best explanation you'll find anywhere, better than anything I could summarize here.</p>
+
+            <p><strong>A few prerequisites:</strong> nothing here assumes the math, but a working, intuitive sense of a few ideas from outside graphs will make the Atlas easier to follow. If you're rusty on <a href="https://opensource.com/article/17/9/representation-learning" target="_blank" rel="noopener">representation learning</a>, <a href="https://www.ibm.com/think/topics/embedding" target="_blank" rel="noopener">embeddings</a>, <a href="https://towardsdatascience.com/word2vec-explained-49c52b4ccb71/" target="_blank" rel="noopener">word2vec</a>, the <a href="https://www.ibm.com/think/topics/attention-mechanism" target="_blank" rel="noopener">attention mechanism</a>, or <a href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">transformers</a>, these are good places to start. I'd add one more: a good chunk of the early Atlas (GCN, ChebNet) is literally convolution carried over from images to graphs, so a quick pass through <a href="https://poloclub.github.io/cnn-explainer/" target="_blank" rel="noopener">convolutional neural networks</a> helps too.</p>
+
+            <a class="page__back" href="/">← Back home</a>
         </div>
+
+        <aside class="about__sidebar">
+            <p class="about__sidebar-eyebrow">About the author</p>
+            <p class="about__sidebar-body">Akshay Sehgal, the one behind the GNN write-ups (and the slightly-too-faded Napoleon chart up top).</p>
+            <p class="about__sidebar-body">Bio, photo, and links coming soon.</p>
+        </aside>
     </main>
+
+    <script src="assets/js/about.js"></script>
 
 </body>
 </html>
