@@ -311,30 +311,39 @@ To add a brand new paper from scratch:
    nitpick.
 4. No rebuild step — the JSON is fetched client-side on page load.
 
-**Edges are a lineage, not a citation graph.** Don't add an edge just because
-gnn-admin's mermaid graph or a paper's related-work section mentions a
-connection — the user explicitly pruned several "everything cites everything"
-edges (2026-09-29) to keep the graph reading as succession/core-inspiration
-only, and asked to keep it that way: "not everything needs to be connected to
-everything." Concretely, edges were removed where a node was already
-well-connected through a stronger primary lineage edge (e.g. `gcn→dgn` was
-cut because `pna→dgn` — DGN's actual direct predecessor — already existed;
-`deepwalk→gcn` was cut as an arbitrary cross-lineage bridge). `gps` in
-particular had 7 incoming edges before pruning (every architecture idea it
-borrows from) and was trimmed to 4 (`mpnn`, `graphormer`, `dgn`, `signnet`) —
-resist the urge to wire a new node to every plausible ancestor; pick the one
-or two edges that represent where the core idea actually came from. Also keep
-the overall shape vertical (taller than wide) rather than sprawling
-horizontally — that's a stated preference, and pruning fan-in/fan-out at
-high-convergence nodes like `gps` is the main lever for it, alongside the
-`nodesep`/`ranksep` layout knobs below.
+**Don't prune edges to "simplify" the lineage without being asked.** This was
+tried once (2026-09-29) — cutting cross-lineage/redundant-looking edges like
+`deepwalk→gcn` and trimming `gps`'s inbound edges from 7 down to 4 — and
+separately reverted the same day: the user explicitly asked to go back to the
+fuller, more-connected edge list. The full 38-edge set (every edge a node's
+own synthesis doc or the gnn-admin mermaid graph actually draws) is the
+intended state. Don't re-attempt this kind of pruning on your own judgment
+call; if asked again, treat it as a fresh request, not a resurrection of the
+prior attempt.
+
+A **deterministic per-node jitter** to break up the perfectly-aligned grid
+look of wide ranks (GAT/GIN/PNA/SchNet, etc.) was also tried and reverted the
+same day — the user said it "looks horrible." Don't reintroduce jitter,
+random-looking offsets, or anything that nudges nodes off dagre's own
+computed positions; the graph should read as dagre laid it out.
 
 Layout tuning knobs live in `overview-graph.js`: `nodeWidth()` (sizing per
-label length), `buildLayout()`'s `nodesep`/`ranksep` (spacing — currently 18
-and 72, biased tight-horizontal/loose-vertical on purpose to favor a taller
-graph), and the `fitTransform()` function (initial pan/zoom fit — centers on
-both axes, recomputes on window resize unless the user has manually panned/
-zoomed).
+label length), `buildLayout()`'s `nodesep`/`ranksep` (spacing — `26`/`64`,
+dagre's defaults-ish; not specially tuned), and the `fitTransform()` function
+(initial pan/zoom fit — centers on both axes, recomputes on window resize
+unless the user has manually panned/zoomed).
+
+**One layout change that *did* stick:** `mirrorHorizontal()` flips the whole
+finished dagre layout left-right (node x and edge waypoint x around the
+graph's width) so the Spectral Networks / ChebNet chain lands on the right
+and the DeepWalk / node2vec chain lands on the left — requested explicitly
+and kept through the pruning/jitter revert ("just horizontally flip that").
+dagre's own left/right ordering within a rank isn't directly steerable (it's
+an internal crossing-minimization heuristic), so mirroring the finished
+layout was the practical way to pin a specific branch to a specific side.
+Don't remove this without being asked, and if the node/edge set changes
+enough that the "wrong" branch ends up on the right again, re-check whether
+mirroring is still wanted before touching it.
 
 The intro card (heading + short paragraph, top-left) is a `position: fixed`
 overlay, NOT a layout sidebar — it floats over the graph and doesn't
