@@ -269,6 +269,11 @@ a {
     font-style: italic;
 }
 
+.about__content strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
 .about__heading {
     font-weight: 400;
     font-size: 1.3rem;

@@ -474,7 +474,17 @@ day per explicit style feedback (see below). Two-column layout, `.about`
      grew out of / led to), but also read the synthesis and the original
      paper once a node is filled in, since some papers (GraphSAGE, GAT
      named explicitly) are clear enough to be the best explanation
-     available on their own.
+     available on their own. Ends with a **"A few prerequisites"**
+     paragraph (added 2026-09-29): representation learning, embeddings,
+     word2vec, the attention mechanism, and transformers, each linked
+     inline to an external explainer the user supplied directly, plus one
+     the user asked to be added on top: convolutional neural networks
+     (linked to the poloclub CNN Explainer, matching the transformer one
+     stylistically), since a chunk of the early Atlas (GCN, ChebNet) is
+     literally convolution generalized to graphs. If asked to extend this
+     list again, keep it "intuition only, no math needed" per the user's
+     framing, and prefer the same kind of visual/interactive explainer
+     over a textbook chapter or a paper.
 - `.about__sidebar` — a **thin, deliberately minimal "About the author"**
   panel (`border-left`, ~220px column on desktop, stacks below content with
   a `border-top` on mobile instead). It's explicitly a placeholder: the user
