@@ -120,10 +120,17 @@ pixel, accent = most saturated warm pixel. Keep `--paper` identical across
 every page — that consistency was explicitly requested.
 
 Typography: system sans stack (`-apple-system, "Helvetica Neue"...`), light
-weights (200–300) for most display text, **except** the graph page's own
-title (`.graph-intro__title`), which is bold + `--accent` colored on
-purpose — that's the one deliberately "loud" element on the page. Nav
-labels and small UI text are uppercase with wide letter-spacing
+weight (300) for every page's main display title, including
+`.graph-intro__title` (Atlas) and `.about__title` (About) — both are
+`font-weight: 300` with no color override (inherits `var(--ink)`, plain
+black). This was **not** always the case: at one point `.graph-intro__title`
+was bold + `--accent` colored as a deliberately "loud" element, and
+`.about__title` was briefly changed to match it. The user tried that look
+and explicitly asked to revert both back to thin/black (2026-09-29) — "I
+think I am a bigger fan of the old style... thin capital black letters."
+Don't reintroduce bold/accent titles on either page without being asked
+again; thin + black is the current, intended, and requested state for both.
+Nav labels and small UI text are uppercase with wide letter-spacing
 (`0.1–0.18em`).
 
 ## Hero cover treatment
@@ -459,12 +466,21 @@ day per explicit style feedback (see below). Two-column layout, `.about`
   (except the first, which reuses the page `<h1 class="about__title">`
   pattern other pages use):
   1. **"Thinking in graphs"** — a lede on graphs being an intuitive way to
-     think (maps, family trees, subway lines), then `.about__figures` (a
-     2-up, 1-up-on-mobile grid) showing `hero-top.jpg` (Minard's Hannibal
-     chart) and `hero-bottom.jpg` (Minard's Napoleon chart) side by side
-     with figcaptions, then a paragraph connecting "one image holds a huge
-     amount of information" to modern graphs (social graphs as influence,
-     the web graph as what makes search/PageRank possible).
+     think (maps, family trees, subway lines), then a single `.about__figure`
+     showing the **whole** `hero.jpg` (both Minard panels together, exactly
+     as scanned, not the top/bottom crops used elsewhere on the site) with
+     one `.about__figure-note` `<figcaption>` below it labeling both halves
+     in a single line ("Top: Hannibal's crossing of the Alps, 218 BC.
+     Bottom: Napoleon's Russian campaign, 1812. Both by Charles Minard,
+     1869."). This went through two iterations at the user's request: first
+     an earlier side-by-side `hero-top.jpg` / `hero-bottom.jpg` two-up
+     layout, then a single whole-image version with a note *above* the image
+     and a separate one below, before landing on this final one-image,
+     one-caption-below form. If asked to touch this again, keep it to a
+     single figcaption below the image, not a note above it. Then a
+     paragraph connecting "one image holds a huge amount of information" to
+     modern graphs (social graphs as influence, the web graph as what makes
+     search/PageRank possible).
   2. **"Why I built this"** — the actual pitch, written as a personal note
      ("My goal with this site was to...", not a marketing-voice mission
      statement): GNNs have a reputation for being unapproachable despite
@@ -512,7 +528,7 @@ day per explicit style feedback (see below). Two-column layout, `.about`
 - Match the site owner's own voice (informal, direct, short asides in
   parentheses) rather than a neutral/corporate tone.
 
-**The two Minard images are click-to-expand.** `assets/js/about.js`
+**The Minard image is click-to-expand.** `assets/js/about.js`
 (`initIntroToggle`'s sibling script, but its own file) attaches a click/Enter
 handler to every `.about__figure img` that builds a fixed full-viewport
 `.lightbox` overlay (dark scrim, the clicked image at up to full
