@@ -18,7 +18,17 @@ Pages and nav (consistent across every page, in this order):
 | Home | `index.html` | Splash/cover page (the Minard hero image). Entry point — never rename this file. |
 | Atlas | `atlas.html` | The actual substantive page: the interactive research-lineage graph. |
 | Blog | *(external)* | Links out to `https://graphneuralnetworks.substack.com/`, `target="_blank"`. Not a local page. |
-| About | `about.html` | About the site and its author. Currently a stub. |
+| About | `about.html` | Why the site exists + a thin "about the author" sidebar. See its own section below. |
+
+The nav's "Home" link and the logo (`nav__brand`) both link to `/`, not
+`index.html` — changed 2026-09-29 at the user's request so clicking Home from
+a subpage lands on `mydomain.com/` (the clean root URL) rather than
+`mydomain.com/index.html`. This relies on GitHub Pages (and `python3 -m
+http.server`, for local dev) serving `index.html` as the default document at
+a directory root, which both do. Don't change these back to `index.html`,
+and if you add new internal links to the homepage, use `/` too for
+consistency — `atlas.html` and `about.html` stay as their own filenames
+since those aren't the root.
 
 Naming has changed more than once during development (the graph page was
 briefly called "Overview," then "Home," before settling on **Atlas**, and
@@ -56,10 +66,11 @@ No build step — just serve the directory and open it:
 python3 -m http.server 4173
 ```
 
-Then open `http://localhost:4173/index.html` (or `/atlas.html`, `/about.html`)
-in a real browser tab. Give the user this URL to open in *their own*
-browser rather than showing it only in an agent's embedded browser pane —
-they've asked for this before.
+Then open `http://localhost:4173/` (or `/atlas.html`, `/about.html` — the
+homepage is `/`, not `/index.html`; see the nav table above) in a real
+browser tab. Give the user this URL to open in *their own* browser rather
+than showing it only in an agent's embedded browser pane — they've asked for
+this before.
 
 Gotcha encountered during development: an embedded/automated browser
 profile can aggressively disk-cache a `<script src>` across navigations
@@ -428,6 +439,38 @@ tall narrow viewport would leave gaps instead of covering. **Do not remove
 the media-query gate** even if asked to "just increase the zoom" — adjust
 the `112%` number, don't replace the mechanism, unless you re-derive the
 math for the mobile case too.
+
+## About page (`about.html`)
+
+No longer a stub — filled in 2026-09-29 with the actual motivation for the
+site, written in first person as the author (Akshay). Two-column layout,
+`.about` (`display: grid; grid-template-columns: 1fr 220px;`, single column
+under 760px):
+
+- `.about__content` — the article: a lede on graphs being an intuitive way
+  to think (maps, family trees, subway lines), then `.about__figures` (a
+  2-up, 1-up-on-mobile grid) showing `hero-top.jpg` (Minard's Hannibal chart)
+  and `hero-bottom.jpg` (Minard's Napoleon chart) side by side with
+  figcaptions, then a few paragraphs connecting "one image holds a huge
+  amount of information" to modern graphs (social graphs as influence, the
+  web graph as what makes search/PageRank possible), then the actual pitch:
+  GNNs have a reputation for being unapproachable despite graph-thinking
+  being natural for data scientists/engineers/PMs alike, and the site's goal
+  is to use that existing intuition to explain the research and get readers
+  current enough to go build/write/think graph-shaped about their own work.
+- `.about__sidebar` — a **thin, deliberately minimal "About the author"**
+  panel (`border-left`, ~220px column on desktop, stacks below content with
+  a `border-top` on mobile instead). It's explicitly a placeholder: the user
+  said they'll fill in a real bio later, so what's there now (name + one
+  wry line + "Bio, photo, and links coming soon") is intentional filler, not
+  a finished author bio. Don't try to flesh it out into a full bio yourself
+  — wait for the user to supply real content (photo, links, longer bio) and
+  swap it in then.
+
+The prose is written in the site owner's own voice (informal, first-person,
+occasional em-dash asides) rather than generic marketing copy — if asked to
+extend or edit this page's text, match that register rather than defaulting
+to a more neutral/corporate tone.
 
 ## Content model
 

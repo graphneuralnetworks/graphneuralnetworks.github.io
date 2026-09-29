@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Graph Neural Networks</title>
+    <meta name="description" content="Why this site exists — on graphs as intuition, and the case for demystifying graph neural networks.">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/images/cube-paper.png">
@@ -11,24 +12,48 @@
 <body>
 
     <nav class="nav nav--on-paper">
-        <a class="nav__brand" href="index.html">
+        <a class="nav__brand" href="/">
             <img class="nav__logo" src="assets/images/cube.png" alt="">
         </a>
         <div class="nav__links">
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <a href="atlas.html">Atlas</a>
             <a class="is-external" href="https://graphneuralnetworks.substack.com/" target="_blank" rel="noopener">Blog</a>
             <a href="about.html">About</a>
         </div>
     </nav>
 
-    <main class="page">
-        <div class="page__inner">
+    <main class="about">
+        <div class="about__content">
             <p class="page__eyebrow">About</p>
-            <h1 class="page__title">Coming soon</h1>
-            <p class="page__body">A short page on the site and the person behind it.</p>
-            <a class="page__back" href="index.html">← Back home</a>
+            <h1 class="about__title">Thinking in graphs</h1>
+            <p class="about__lede">Graphs are one of the most natural things we already think in — a map, a family tree, a group chat, a subway line. Long before anyone called it graph theory, we were reading the world as things connected to other things. This site starts from that intuition and tries to carry it all the way into graph neural networks.</p>
+
+            <div class="about__figures">
+                <figure class="about__figure">
+                    <img src="assets/images/hero-top.jpg" alt="Charles Minard's chart of Hannibal's army crossing the Alps">
+                    <figcaption>Charles Minard, 1869 — Hannibal's crossing of the Alps, 218 BC.</figcaption>
+                </figure>
+                <figure class="about__figure">
+                    <img src="assets/images/hero-bottom.jpg" alt="Charles Minard's chart of Napoleon's Russian campaign">
+                    <figcaption>Charles Minard, 1869 — Napoleon's Russian campaign, 1812.</figcaption>
+                </figure>
+            </div>
+
+            <p>Six variables in one image — army size, direction, geography, temperature — read at a glance, no legend required. That's the whole case for graphs: they don't just store connections, they store <em>meaning</em> in the connections. A social graph isn't just who follows whom, it's a proxy for influence and reach. The web graph isn't just links, it's the reason search works at all — PageRank is, underneath everything, a very large graph algorithm wearing a business suit.</p>
+
+            <p>And yet graph neural networks have a reputation for being dense, notation-heavy, unapproachable — despite the fact that most of us already reason this way by default. Data scientists, engineers, PMs: everyone thinks in graphs constantly, we just don't always call it that. This site leans into that existing intuition instead of starting from the math.</p>
+
+            <p>The goal isn't just to explain the ideas — it's to walk through the decades of research that got us here, from the earliest spectral methods to today's graph transformers, so you're not only caught up but confident enough to go build something: an implementation, a paper, or just a more graph-shaped way of looking at your next ML problem.</p>
+
+            <a class="page__back" href="/">← Back home</a>
         </div>
+
+        <aside class="about__sidebar">
+            <p class="about__sidebar-eyebrow">About the author</p>
+            <p class="about__sidebar-body">Akshay Sehgal — the one behind the GNN write-ups (and the slightly-too-faded Napoleon chart up top).</p>
+            <p class="about__sidebar-body">Bio, photo, and links coming soon.</p>
+        </aside>
     </main>
 
 </body>
