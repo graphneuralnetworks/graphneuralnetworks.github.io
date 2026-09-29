@@ -462,15 +462,18 @@ day per explicit style feedback (see below). Two-column layout, `.about`
      think (maps, family trees, subway lines), then a single `.about__figure`
      showing the **whole** `hero.jpg` (both Minard panels together, exactly
      as scanned, not the top/bottom crops used elsewhere on the site) with
-     a `.about__figure-note` labeling the top half above the image ("Top:
-     Hannibal's crossing of the Alps...") and another below it as the
-     `<figcaption>` ("Bottom: Napoleon's Russian campaign... Both by Charles
-     Minard..."). This replaced an earlier side-by-side `hero-top.jpg` /
-     `hero-bottom.jpg` two-up layout at the user's request, specifically to
-     show the original single-sheet image intact rather than the cropped
-     halves. Then a paragraph connecting "one image holds a huge amount of
-     information" to modern graphs (social graphs as influence, the web
-     graph as what makes search/PageRank possible).
+     one `.about__figure-note` `<figcaption>` below it labeling both halves
+     in a single line ("Top: Hannibal's crossing of the Alps, 218 BC.
+     Bottom: Napoleon's Russian campaign, 1812. Both by Charles Minard,
+     1869."). This went through two iterations at the user's request: first
+     an earlier side-by-side `hero-top.jpg` / `hero-bottom.jpg` two-up
+     layout, then a single whole-image version with a note *above* the image
+     and a separate one below, before landing on this final one-image,
+     one-caption-below form. If asked to touch this again, keep it to a
+     single figcaption below the image, not a note above it. Then a
+     paragraph connecting "one image holds a huge amount of information" to
+     modern graphs (social graphs as influence, the web graph as what makes
+     search/PageRank possible).
   2. **"Why I built this"** — the actual pitch, written as a personal note
      ("My goal with this site was to...", not a marketing-voice mission
      statement): GNNs have a reputation for being unapproachable despite
